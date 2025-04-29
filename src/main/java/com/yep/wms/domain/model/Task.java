@@ -18,6 +18,7 @@ public class Task {
     private UUID id;
     private String title;
     private String description;
+    //TODO: use converter to convert Status enum to string
     private Status status;
 
     @Column("project_id")

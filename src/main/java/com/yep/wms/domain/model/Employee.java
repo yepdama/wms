@@ -14,7 +14,9 @@ public class Employee {
     private String employeeId;
     private String name;
     private String email;
-    private Designation designation;
+
+    //TODO: use converter to convert Designation enum to string
+    private String designation;
 
     @Column("created_at")
     private Long createdAt;
