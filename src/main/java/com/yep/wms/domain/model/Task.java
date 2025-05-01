@@ -2,10 +2,12 @@ package com.yep.wms.domain.model;
 
 import com.yep.wms.application.enums.Status;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -31,5 +33,9 @@ public class Task {
     private Date duedate;
 
     @Column("created_at")
-    private Long createdAt;
+    @CreatedDate
+    private ZonedDateTime createdAt;
+
+    @Column("updated_at")
+    private ZonedDateTime updatedAt;
 }
