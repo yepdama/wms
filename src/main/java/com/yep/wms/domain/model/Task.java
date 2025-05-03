@@ -9,25 +9,22 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.UUID;
 
 @Table("task")
 @Data
 public class Task {
-    //Task: id, title, description, status (enum),
-    // projectId (FK), assignedTo (FK to User), dueDate, createdAt
     @Id
-    private UUID id;
+    private Integer id;
     private String title;
     private String description;
     //TODO: use converter to convert Status enum to string
     private Status status;
 
     @Column("project_id")
-    private UUID projectId;
+    private Integer projectId;
 
     @Column("assigned_to")
-    private UUID assignedTo;
+    private Integer assignedTo;
 
     @Column("due_date")
     private Date duedate;

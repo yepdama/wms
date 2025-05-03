@@ -7,13 +7,12 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Table("employee")
 @Data
 public class Employee {
     @Id
-    private UUID id;
+    private Integer id;
     private String employeeId;
     private String name;
     private String email;

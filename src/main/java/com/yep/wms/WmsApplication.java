@@ -7,7 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class WmsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WmsApplication.class, args);
+		try {
+			SpringApplication.run(WmsApplication.class, args);
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+
 	}
 
 }

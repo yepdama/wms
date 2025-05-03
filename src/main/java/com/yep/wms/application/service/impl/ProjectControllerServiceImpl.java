@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @Service
 @AllArgsConstructor
 public class ProjectControllerServiceImpl implements ProjectControllerService {
@@ -28,7 +26,6 @@ public class ProjectControllerServiceImpl implements ProjectControllerService {
 
     private Project buildProject(ProjectRequestDto projectRequestDto) {
         return Project.builder()
-                .id(UUID.randomUUID())
                 .name(projectRequestDto.getName())
                 .ownerId(RandomUtil.getPositiveInt())
                 .description(projectRequestDto.getDescription())
@@ -36,13 +33,14 @@ public class ProjectControllerServiceImpl implements ProjectControllerService {
     }
 
     @Override
-    public Mono<ProjectDto> getProject(UUID id) {
+    public Mono<ProjectDto> getProject(Integer id) {
         return projectRepository.findById(id)
+                .switchIfEmpty(Mono.error(new Exception()))
                 .map(ProjectMapper::entityToDTO);
     }
 
     @Override
-    public void deleteProject(UUID id) {
+    public void deleteProject(Integer id) {
         projectRepository.deleteById(id);
     }
 

@@ -13,22 +13,16 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/v1/projects")
 public class ProjectController {
-//    POST /projects → Create a project
-//
-//    GET /projects/{id} → Get project by ID
-//
-//    DELETE /projects/{id} → Delete project by ID
-
     @Autowired
     private ProjectControllerService projectControllerService;
 
     @GetMapping("/{id}")
-    private Mono<ProjectDto> getProject(@RequestParam UUID id){
+    private Mono<ProjectDto> getProject(@PathVariable Integer id){
         return projectControllerService.getProject(id);
     }
 
     @DeleteMapping("/{id}")
-    private void deleteProject(@RequestParam UUID id){
+    private void deleteProject(@RequestParam Integer id){
         projectControllerService.deleteProject(id);
     }
 

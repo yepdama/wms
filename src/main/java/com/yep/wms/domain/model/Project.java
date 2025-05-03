@@ -8,14 +8,13 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 @Table("project")
 @Data
 @Builder
 public class Project {
     @Id
-    private UUID id;
+    private Integer id;
     private String name;
     private String description;
 
