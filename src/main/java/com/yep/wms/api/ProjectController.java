@@ -3,6 +3,7 @@ package com.yep.wms.api;
 import com.yep.wms.application.dto.ProjectDto;
 import com.yep.wms.application.dto.ProjectRequestDto;
 import com.yep.wms.application.service.ProjectControllerService;
+import com.yep.wms.application.validator.RequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -27,8 +28,10 @@ public class ProjectController {
     }
 
     @PostMapping("")
-    private Mono<ProjectDto> createProject(@RequestBody ProjectRequestDto projectRequestDto){
-        return projectControllerService.createProject(projectRequestDto);
+    private Mono<ProjectDto> createProject(@RequestBody Mono<ProjectRequestDto> projectRequestMono){
+        return projectRequestMono
+                .transform(RequestValidator.validateProjectRequestDto())
+                .flatMap(projectControllerService::createProject);
     }
 
     @GetMapping("")
