@@ -10,9 +10,9 @@ import java.util.UUID;
 public interface ProjectControllerService {
     Mono<ProjectDto> createProject(ProjectRequestDto projectRequestDto);
 
-    Mono<ProjectDto> getProject(UUID id);
+    Mono<ProjectDto> getProject(Integer id);
 
-    void deleteProject(UUID id);
+    void deleteProject(Integer id);
 
     Flux<ProjectDto> getAllProjects();
 }

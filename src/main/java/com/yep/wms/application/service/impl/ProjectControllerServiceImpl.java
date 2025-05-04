@@ -1,48 +1,53 @@
 package com.yep.wms.application.service.impl;
 
+import ch.qos.logback.core.testUtil.RandomUtil;
 import com.yep.wms.application.dto.ProjectDto;
 import com.yep.wms.application.dto.ProjectRequestDto;
+import com.yep.wms.application.mapper.ProjectMapper;
 import com.yep.wms.application.service.ProjectControllerService;
+import com.yep.wms.domain.model.Project;
+import com.yep.wms.domain.repository.ProjectRepository;
+import com.yep.wms.exception.ProjectNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
 @Service
+@AllArgsConstructor
 public class ProjectControllerServiceImpl implements ProjectControllerService {
-    private ArrayList<ProjectDto> inMemory = new ArrayList<>();
+    private ProjectRepository projectRepository;
 
     @Override
     public Mono<ProjectDto> createProject(ProjectRequestDto projectRequestDto) {
-        ProjectDto projectDto = buildProjectDto(projectRequestDto);
-        inMemory.add(projectDto);
-        return Mono.just(projectDto);
+        Project project = buildProject(projectRequestDto);
+        return projectRepository.save(project)
+                .map(ProjectMapper::entityToDTO);
     }
 
-    private ProjectDto buildProjectDto(ProjectRequestDto projectRequestDto) {
-        return ProjectDto.builder()
-                .id(UUID.randomUUID())
+    private Project buildProject(ProjectRequestDto projectRequestDto) {
+        return Project.builder()
                 .name(projectRequestDto.getName())
+                .ownerId(RandomUtil.getPositiveInt())
                 .description(projectRequestDto.getDescription())
                 .build();
     }
 
     @Override
-    public Mono<ProjectDto> getProject(UUID id) {
-        return Mono.justOrEmpty(inMemory.stream()
-                .filter(projectDto -> projectDto.getId().equals(id))
-                .findFirst());
+    public Mono<ProjectDto> getProject(Integer id) {
+        return projectRepository.findById(id)
+                .switchIfEmpty(Mono.error(new ProjectNotFoundException(id)))
+                .map(ProjectMapper::entityToDTO);
     }
 
     @Override
-    public void deleteProject(UUID id) {
-        inMemory.removeIf(projectDto -> projectDto.getId().equals(id));
+    public void deleteProject(Integer id) {
+        projectRepository.deleteById(id);
     }
 
     @Override
     public Flux<ProjectDto> getAllProjects() {
-        return Flux.fromIterable(inMemory);
+        return projectRepository.findAll()
+                .map(ProjectMapper::entityToDTO);
     }
 }

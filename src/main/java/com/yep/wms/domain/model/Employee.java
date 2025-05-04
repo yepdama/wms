@@ -1,16 +1,18 @@
 package com.yep.wms.domain.model;
-import com.yep.wms.application.enums.Designation;
+
+import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.UUID;
-import lombok.Data;
+import java.time.ZonedDateTime;
+
 @Table("employee")
 @Data
 public class Employee {
     @Id
-    private UUID id;
+    private Integer id;
     private String employeeId;
     private String name;
     private String email;
@@ -19,5 +21,6 @@ public class Employee {
     private String designation;
 
     @Column("created_at")
-    private Long createdAt;
+    @CreatedDate
+    private ZonedDateTime createdAt;
 }

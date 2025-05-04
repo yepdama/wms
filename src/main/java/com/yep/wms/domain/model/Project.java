@@ -1,17 +1,20 @@
 package com.yep.wms.domain.model;
 
+import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.UUID;
+import java.time.ZonedDateTime;
 
 @Table("project")
 @Data
+@Builder
 public class Project {
     @Id
-    private UUID id;
+    private Integer id;
     private String name;
     private String description;
 
@@ -19,5 +22,6 @@ public class Project {
     private Integer ownerId;
 
     @Column("created_at")
-    private Long createdAt;
+    @CreatedDate
+    private ZonedDateTime createdAt;
 }
